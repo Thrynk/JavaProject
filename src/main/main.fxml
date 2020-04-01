@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="356.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
    <children>
-      <TextArea fx:id="output" prefHeight="200.0" prefWidth="200.0" />
-      <GridPane>
+      <HBox prefHeight="31.0" prefWidth="640.0">
+         <children>
+            <Label fx:id="operationsHistory" prefHeight="24.0" prefWidth="320.0" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Label fx:id="result" prefHeight="22.0" prefWidth="35.0" text="= " />
+         </children>
+      </HBox>
+      <TextArea fx:id="output" prefHeight="20.0" prefWidth="640.0" />
+      <GridPane prefHeight="331.0" prefWidth="640.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -33,7 +43,7 @@
             <Button mnemonicParsing="false" onAction="#onNumberClicked" text="4" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="-" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Button mnemonicParsing="false" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Button mnemonicParsing="false" onAction="#onNumberClicked" text="5" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#onNumberClicked" text="6" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#onNumberClicked" text="1" GridPane.rowIndex="3" />
