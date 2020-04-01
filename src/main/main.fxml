@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="356.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+   <children>
+      <TextArea fx:id="output" prefHeight="200.0" prefWidth="200.0" />
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="7" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="8" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="9" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="x" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="/" GridPane.columnIndex="3" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="4" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#onOperatorClicked" text="-" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="5" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="6" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="2" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="3" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#onNumberClicked" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" text="+/-" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" text="," GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="1.0" text="(" />
+            <Button mnemonicParsing="false" text=")" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</VBox>
