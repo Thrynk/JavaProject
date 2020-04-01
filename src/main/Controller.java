@@ -10,7 +10,7 @@ public class Controller {
 
     private double sum = 0;
     private boolean hasOperatorBeingPressedOnce = false;
-    private String operatorPressed = "";
+    private String operatorPressed = "start";
 
     @FXML
     private TextArea output;
@@ -37,7 +37,9 @@ public class Controller {
 
 
                 if (!hasOperatorBeingPressedOnce) {
-                    sum = Double.parseDouble(output.getText());
+                    if(!operatorPressed.equals("")) {
+                        sum = Double.parseDouble(output.getText());
+                    }
                     operatorPressed = btn.getText().trim();
                     operationsHistory.setText(output.getText() + operatorPressed);
                     output.clear();
@@ -47,23 +49,32 @@ public class Controller {
                         double temp = Double.parseDouble(output.getText());
                         switch (operatorPressed) {
                             case "/":
+                                System.out.println(sum);
                                 sum /= temp;
+                                System.out.println(operatorPressed + temp + "=" + sum);
                                 break;
                             case "x":
+                                System.out.println(sum);
                                 sum *= temp;
+                                System.out.println(operatorPressed + temp + "=" + sum);
                                 break;
                             case "+":
+                                System.out.println(sum);
                                 sum += temp;
+                                System.out.println(operatorPressed + temp + "=" + sum);
                                 break;
                             case "-":
+                                System.out.println(sum);
                                 sum -= temp;
+                                System.out.println(operatorPressed + temp + "=" + sum);
                                 break;
 
                         }
+                        hasOperatorBeingPressedOnce = !btn.getText().trim().equals("=");
                         operatorPressed = btn.getText().trim().equals("=") ? "" : btn.getText().trim();
                         operationsHistory.setText(operationsHistory.getText() + " " + output.getText() + " " + operatorPressed);
                         output.clear();
-                        result.setText(String.valueOf(sum));
+                        result.setText("= " + sum);
                     }
                 }
             }
