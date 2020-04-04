@@ -4,8 +4,14 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is the tokenizer, it can return tokens from a String input
+ * tokensDefinitions is a LinkedList containing all the tokens defined by the creators of the Calculator useful to tokenize the input (linked is necessary because we need a hierarchical order for tokens).
+ * tokens is a LinkedList containing all the tokens read from the input
+ */
+
 public class Tokenizer {
-    private LinkedList<TokenDefinition> tokensDefinitions; //contains all the definitions of the tokens necessary for the parser
+    private LinkedList<TokenDefinition> tokensDefinitions;
     private LinkedList<Token> tokens;
 
     public Tokenizer(){
@@ -21,8 +27,12 @@ public class Tokenizer {
         tokensDefinitions.add(new TokenDefinition(Pattern.compile("^("+ regex + ")"), token));
     }
 
-    public void tokenize(String str){
-        String s = str;
+    /**
+     * Tokenize the input, this function is storing all the tokens read from the input in the tokens LinkedList
+     * @param input
+     */
+    public void tokenize(String input){
+        String s = input;
         tokens.clear();
 
         while(!s.equals("")){
