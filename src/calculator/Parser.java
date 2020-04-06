@@ -3,6 +3,11 @@ package calculator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This a parser for our LL (left to right) Grammar (Grammar.md file), it is parsing an input list of tokens (built by the tokenizer)
+ * It is throwing a ParserException if there is an syntax error in the input
+ */
+
 public class Parser {
     private LinkedList<Token> tokens;
     private Token lookFirst;
