@@ -1,0 +1,66 @@
+package calculator;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class Parser {
+    private LinkedList<Token> tokens;
+    private Token lookFirst;
+
+    public void parse(List<Token> tokens) throws ParserException {
+        this.tokens = new LinkedList<Token>(tokens);
+        lookFirst = this.tokens.getFirst();
+
+        this.instruction();
+
+        if(lookFirst.token != Token.EPSILON){
+            throw new ParserException("Unexpected symbol " + lookFirst.token + " : " + lookFirst.sequence + " found");
+        }
+    }
+
+    private void instruction() throws ParserException {
+        // instruction -> expression
+        if(lookFirst.token != Token.EPSILON){
+            this.expression();
+        }
+        // instruction -> Epsilon
+    }
+
+    private void expression() throws ParserException {
+        // expression -> term sum
+        term();
+        sum();
+    }
+
+    private void term(){
+        // term -> NUMBER
+        if(lookFirst.token == Token.NUMBER){
+            goToNextToken();
+        }
+    }
+
+    private void sum(){
+        // sum -> PLUS term sum | MINUS term sum
+        if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
+            goToNextToken();
+            term();
+            sum();
+        }
+        // sum -> Epsilon
+        else if(lookFirst.token == Token.EPSILON){
+            System.out.println("End of parsing");
+        }
+    }
+
+    private void goToNextToken(){
+        tokens.pop(); // Remove previous token already processed
+
+        // if this is the end of the input we have to return the Epsilon token otherwise we store the next token in lookFirst
+        if(tokens.isEmpty()){
+            lookFirst = new Token(Token.EPSILON, "");
+        }
+        else{
+            lookFirst = tokens.getFirst();
+        }
+    }
+}
