@@ -12,54 +12,102 @@ public class Parser {
     private LinkedList<Token> tokens;
     private Token lookFirst;
 
-    public void parse(List<Token> tokens) throws ParserException {
+    public Node parse(List<Token> tokens) throws ParserException {
         this.tokens = new LinkedList<Token>(tokens);
         lookFirst = this.tokens.getFirst();
 
-        this.instruction();
+        Node instruction = instruction();
 
         if(lookFirst.token != Token.EPSILON){
             throw new ParserException("Unexpected symbol " + lookFirst.token + " : " + lookFirst.sequence + " found");
         }
+
+        return instruction;
     }
 
-    private void instruction() throws ParserException {
+    private Node instruction() throws ParserException {
         // instruction -> expression
         if(lookFirst.token != Token.EPSILON){
-            this.expression();
+            return expression();
         }
         // instruction -> Epsilon
+        return null;
     }
 
-    private void expression() throws ParserException {
+    private Node expression() throws ParserException {
         // expression -> term sum
-        term();
-        sum();
+        Node t = term();
+        return sum(t);
     }
 
-    private void term() throws ParserException {
-        // term -> NUMBER
-        if(lookFirst.token == Token.NUMBER){
-            goToNextToken();
-        }
-        // term -> PLUS NUMBER | MINUS NUMBER
-        else if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
-            goToNextToken();
-            goToNextToken();
-        }
-        else{
-            throw new ParserException("Unexpected symbol " + lookFirst.getTokenName() + " : " + lookFirst.sequence + " found");
-        }
-    }
-
-    private void sum() throws ParserException {
+    private Node sum(Node expression) throws ParserException {
         // sum -> PLUS term sum | MINUS term sum
         if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
+            AdditionNode addition;
+            if(expression.getType() == Node.ADDITION_NODE)
+                addition = (AdditionNode) expression;
+            else
+                addition = new AdditionNode(expression, true);
+
+            boolean positive = lookFirst.sequence.equals("+");
             goToNextToken();
-            term();
-            sum();
+            Node t = term();
+            addition.add(t, positive);
+            return sum(addition);
         }
         // sum -> Epsilon
+        return expression;
+    }
+
+    private Node term() throws ParserException {
+        // term -> factor factor_op
+        Node f = factor();
+        return factorOp(f);
+    }
+
+    private Node factor() throws ParserException {
+        Node expression = null;
+        // factor -> NUMBER
+        if(lookFirst.token == Token.NUMBER){
+            expression = new ConstantNode(lookFirst.sequence);
+            goToNextToken();
+            System.out.println(expression.getType() + " " + expression.getValue());
+            return expression;
+        }
+        // factor -> OP_BRACKET expression CL_BRACKET
+        else if(lookFirst.token == Token.OP_BRACKET){
+            goToNextToken();
+            expression = expression();
+            if(lookFirst.token != Token.CL_BRACKET){
+                throw new ParserException("Unexpected symbol " + lookFirst.getTokenName() + "instead of closing bracket ) : " + lookFirst.sequence + " found");
+            }
+            else{
+                goToNextToken();
+
+            }
+        }
+        return expression;
+    }
+
+    private Node factorOp(Node expression) throws ParserException {
+        // factor_op -> MULT factor factor_op | DIV factor factor_op
+        if(lookFirst.token == Token.MULT || lookFirst.token == Token.DIV){
+            MultiplicationNode product;
+
+            if(expression.getType() == Node.MULTIPLICATION_NODE)
+                product = (MultiplicationNode) expression;
+            else
+                product = new MultiplicationNode(expression, true);
+            boolean positive = lookFirst.sequence.equals("*");
+            goToNextToken();
+            Node f = factor();
+            System.out.println(f.getType() + " " + f.getValue());
+            product.add(f, positive);
+            System.out.println(product.getType() + " " + product.getValue());
+            return factorOp(product);
+        }
+        // factor_op -> Epsilon
+        return expression;
     }
 
     private void goToNextToken(){
