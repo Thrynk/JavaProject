@@ -29,7 +29,7 @@ expression -> term sum
 
 sum -> PLUS term sum | MINUS term sum | Epsilon
 
-term -> NUMBER
+term -> NUMBER | PLUS NUMBER | MINUS NUMBER
 
 
 

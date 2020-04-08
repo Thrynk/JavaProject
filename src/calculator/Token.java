@@ -26,4 +26,45 @@ public class Token {
         this.token = token;
         this.sequence = sequence;
     }
+
+    public String getTokenName(){
+        String tokenName = "";
+        switch(this.token){
+            case 0:
+                tokenName = "EPSILON";
+                break;
+            case 1:
+                tokenName = "PLUS";
+                break;
+            case 2:
+                tokenName = "MINUS";
+                break;
+            case 3:
+                tokenName = "MULT";
+                break;
+            case 4:
+                tokenName = "DIV";
+                break;
+            case 5:
+                tokenName = "RAISED";
+                break;
+            case 6:
+                tokenName = "FUNCTION";
+                break;
+            case 7:
+                tokenName = "OP_BRACKET";
+                break;
+            case 8:
+                tokenName = "CL_BRACKET";
+                break;
+            case 9:
+                tokenName = "NUMBER";
+                break;
+            default:
+                tokenName = "UNKNOWN";
+                break;
+        }
+
+        return tokenName;
+    }
 }

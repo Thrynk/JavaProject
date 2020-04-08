@@ -37,14 +37,22 @@ public class Parser {
         sum();
     }
 
-    private void term(){
+    private void term() throws ParserException {
         // term -> NUMBER
         if(lookFirst.token == Token.NUMBER){
             goToNextToken();
         }
+        // term -> PLUS NUMBER | MINUS NUMBER
+        else if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
+            goToNextToken();
+            goToNextToken();
+        }
+        else{
+            throw new ParserException("Unexpected symbol " + lookFirst.getTokenName() + " : " + lookFirst.sequence + " found");
+        }
     }
 
-    private void sum(){
+    private void sum() throws ParserException {
         // sum -> PLUS term sum | MINUS term sum
         if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
             goToNextToken();
@@ -52,9 +60,6 @@ public class Parser {
             sum();
         }
         // sum -> Epsilon
-        else if(lookFirst.token == Token.EPSILON){
-            System.out.println("End of parsing");
-        }
     }
 
     private void goToNextToken(){
