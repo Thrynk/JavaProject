@@ -72,6 +72,7 @@ factor_with_sign -> PLUS factor
                     | factor
                 
 factor -> NUMBER
+            | FUNCTION factor
             | OP_BRACKET expression CL_BRACKET
                 
 
