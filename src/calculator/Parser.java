@@ -92,6 +92,13 @@ public class Parser {
             System.out.println(expression.getType() + " " + expression.getValue());
             return expression;
         }
+        // factor -> FUNCTION factor
+        else if(lookFirst.token == Token.FUNCTION){
+            String function = lookFirst.sequence;
+            goToNextToken();
+            Node arg = factor();
+            return new FunctionNode(function, arg);
+        }
         // factor -> OP_BRACKET expression CL_BRACKET
         else if(lookFirst.token == Token.OP_BRACKET){
             goToNextToken();

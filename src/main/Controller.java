@@ -9,14 +9,15 @@ public class Controller {
 
     public Controller() throws ParserException {
         this.tokenizer = new Tokenizer();
-        this.tokenizer.add("\\+", 1);
-        this.tokenizer.add("-", 2);
-        this.tokenizer.add("\\*", 3);
-        this.tokenizer.add("/", 4);
-        this.tokenizer.add("[0-9]+", 9); //integer number
-        this.tokenizer.add("\\(", 7);
-        this.tokenizer.add("\\)", 8);
-        this.tokenizer.tokenize("-3*-5");
+        this.tokenizer.add("sin|cos|exp|ln|sqrt", 6); // function
+        this.tokenizer.add("\\+", 1); // +
+        this.tokenizer.add("-", 2); // -
+        this.tokenizer.add("\\*", 3); // *
+        this.tokenizer.add("/", 4); // / division
+        this.tokenizer.add("[0-9]+", 9); // integer number
+        this.tokenizer.add("\\(", 7); // opening bracket
+        this.tokenizer.add("\\)", 8); // closing bracket
+        this.tokenizer.tokenize("-3*sin(5)");
         /*for (Token token: tokenizer.getTokens()){
             System.out.println("" + token.token + " " + token.sequence);
         }*/
