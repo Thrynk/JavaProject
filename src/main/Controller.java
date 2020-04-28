@@ -16,7 +16,7 @@ public class Controller {
         this.tokenizer.add("[0-9]+", 9); //integer number
         this.tokenizer.add("\\(", 7);
         this.tokenizer.add("\\)", 8);
-        this.tokenizer.tokenize("(3+2)");
+        this.tokenizer.tokenize("-3*-5");
         /*for (Token token: tokenizer.getTokens()){
             System.out.println("" + token.token + " " + token.sequence);
         }*/
