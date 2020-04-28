@@ -35,9 +35,27 @@ public class Parser {
     }
 
     private Node expression() throws ParserException {
-        // expression -> term sum
-        Node t = term();
+        // expression -> term_with_sign sum
+        Node t = termWithSign();
         return sum(t);
+    }
+
+    private Node termWithSign() throws ParserException {
+        // term_with_sign -> PLUS term | MINUS term
+        if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
+            boolean positive = lookFirst.sequence.equals("+");
+            goToNextToken();
+            Node t = term();
+            System.out.println(t.getType() + " " + t.getValue());
+            if(positive){
+                return t;
+            }
+            else{
+                return new AdditionNode(t, false);
+            }
+        }
+        // term_with_sign -> term
+        return term();
     }
 
     private Node sum(Node expression) throws ParserException {
@@ -90,7 +108,7 @@ public class Parser {
     }
 
     private Node factorOp(Node expression) throws ParserException {
-        // factor_op -> MULT factor factor_op | DIV factor factor_op
+        // factor_op -> MULT factor_with_sign factor_op | DIV factor_with_sign factor_op
         if(lookFirst.token == Token.MULT || lookFirst.token == Token.DIV){
             MultiplicationNode product;
 
@@ -100,7 +118,7 @@ public class Parser {
                 product = new MultiplicationNode(expression, true);
             boolean positive = lookFirst.sequence.equals("*");
             goToNextToken();
-            Node f = factor();
+            Node f = factorWithSign();
             System.out.println(f.getType() + " " + f.getValue());
             product.add(f, positive);
             System.out.println(product.getType() + " " + product.getValue());
@@ -108,6 +126,23 @@ public class Parser {
         }
         // factor_op -> Epsilon
         return expression;
+    }
+
+    private Node factorWithSign() throws ParserException {
+        // factor_with_sign -> PLUS factor | MINUS factor
+        if(lookFirst.token == Token.PLUS || lookFirst.token == Token.MINUS){
+            boolean positive = lookFirst.sequence.equals("+");
+            goToNextToken();
+            Node f = factor();
+            if(positive){
+                return f;
+            }
+            else{
+                return new AdditionNode(f, false);
+            }
+        }
+        // factor_with_sign -> factor
+        return factor();
     }
 
     private void goToNextToken(){

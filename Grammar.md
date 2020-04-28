@@ -25,13 +25,21 @@
 instruction -> expression
                 | Epsilon
                 
-expression -> term 
-                | term PLUS term 
-                | term MINUS term
+expression -> term_with_sign 
+                | term_with_sign PLUS term 
+                | term_with_sign MINUS term
+                
+term_with_sign -> PLUS term
+                    | MINUS term
+                    | term
 
 term -> factor
-        | factor MULT factor
-        | factor DIV factor
+        | factor MULT factor_with_sign
+        | factor DIV factor_with_sign
+        
+factor_with_sign -> PLUS factor
+                    | MINUS factor
+                    | factor
             
 factor -> NUMBER
             | OP_BRACKET expression CL_BRACKET
@@ -43,17 +51,25 @@ use this technique : https://www.lewuathe.com/how-to-construct-grammar-of-arithm
 instruction -> expression
                 | Epsilon
                 
-expression -> term sum
+expression -> term_with_sign sum
 
 sum -> PLUS term sum 
         | MINUS term sum 
         | Epsilon
+        
+term_with_sign -> PLUS term
+                    | MINUS term
+                    | term
 
 term -> factor factor_op
 
-factor_op -> MULT factor factor_op 
-                | DIV factor factor_op 
+factor_op -> MULT factor_with_sign factor_op 
+                | DIV factor_with_sign factor_op 
                 | Epsilon
+                
+factor_with_sign -> PLUS factor
+                    | MINUS factor
+                    | factor
                 
 factor -> NUMBER
             | OP_BRACKET expression CL_BRACKET
