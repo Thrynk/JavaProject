@@ -14,16 +14,28 @@ public class Controller {
         this.tokenizer.add("-", 2); // -
         this.tokenizer.add("\\*", 3); // *
         this.tokenizer.add("/", 4); // / division
+        this.tokenizer.add("\\=", 10); // =
         this.tokenizer.add("[0-9]+", 9); // integer number
         this.tokenizer.add("\\(", 7); // opening bracket
         this.tokenizer.add("\\)", 8); // closing bracket
-        this.tokenizer.tokenize("-3*sin(5)");
+        this.tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 5); // variable
+
+
         /*for (Token token: tokenizer.getTokens()){
             System.out.println("" + token.token + " " + token.sequence);
         }*/
 
         this.parser = new Parser();
         try {
+            this.tokenizer.tokenize("x=3");
+            for (Token token: tokenizer.getTokens()){
+                System.out.println("" + token.token + " " + token.sequence);
+            }
+            this.parser.parse(this.tokenizer.getTokens());
+            this.tokenizer.tokenize("x");
+            for (Token token: tokenizer.getTokens()){
+                System.out.println("" + token.token + " " + token.sequence);
+            }
             Node expression = this.parser.parse(this.tokenizer.getTokens());
             System.out.println(expression.getValue());
         }

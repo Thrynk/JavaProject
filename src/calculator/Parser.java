@@ -26,12 +26,27 @@ public class Parser {
     }
 
     private Node instruction() throws ParserException {
+        // instruction -> initialization
+        if(lookFirst.token == Token.INIT){
+           initialization();
+           return null;
+        }
         // instruction -> expression
-        if(lookFirst.token != Token.EPSILON){
+        else if(lookFirst.token != Token.EPSILON){
             return expression();
         }
         // instruction -> Epsilon
         return null;
+    }
+
+    private void initialization(){
+        goToNextToken();
+        String variableName = lookFirst.sequence;
+        goToNextToken();
+        goToNextToken();
+        Double value = Double.valueOf(lookFirst.sequence);
+        goToNextToken();
+        VariableNode.addVariable(variableName, value);
     }
 
     private Node expression() throws ParserException {
@@ -85,15 +100,8 @@ public class Parser {
 
     private Node factor() throws ParserException {
         Node expression = null;
-        // factor -> NUMBER
-        if(lookFirst.token == Token.NUMBER){
-            expression = new ConstantNode(lookFirst.sequence);
-            goToNextToken();
-            System.out.println(expression.getType() + " " + expression.getValue());
-            return expression;
-        }
         // factor -> FUNCTION factor
-        else if(lookFirst.token == Token.FUNCTION){
+        if(lookFirst.token == Token.FUNCTION){
             String function = lookFirst.sequence;
             goToNextToken();
             Node arg = factor();
@@ -110,6 +118,29 @@ public class Parser {
                 goToNextToken();
 
             }
+        }
+        // factor -> value
+        else {
+            expression = value();
+        }
+        return expression;
+    }
+
+    private Node value() throws ParserException {
+        Node expression = null;
+        // value -> NUMBER
+        if(lookFirst.token == Token.NUMBER){
+            expression = new ConstantNode(lookFirst.sequence);
+            goToNextToken();
+            System.out.println(expression.getType() + " " + expression.getValue());
+            return expression;
+        }
+        // value -> VARIABLE
+        else if(lookFirst.token == Token.VARIABLE){
+            String variableName = lookFirst.sequence;
+            expression = new VariableNode(variableName);
+            System.out.println(expression.getType() + " " + expression.getValue());
+            goToNextToken();
         }
         return expression;
     }

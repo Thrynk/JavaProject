@@ -20,10 +20,17 @@
 
 - NUMBER : numerical number
 
+- EQUAL : =
+
+- VARIABLE = variable (only number for the moment)
+
 ## Standard Grammar
 
 instruction -> expression
+                | initialization
                 | Epsilon
+                
+initialization -> VARIABLE EQUAL NUMBER
                 
 expression -> term_with_sign 
                 | term_with_sign PLUS term 
@@ -41,8 +48,12 @@ factor_with_sign -> PLUS factor
                     | MINUS factor
                     | factor
             
-factor -> NUMBER
+factor -> value
+            | FUNCTION factor
             | OP_BRACKET expression CL_BRACKET
+            
+value -> NUMBER
+            | VARIABLE
 
 ## LL Grammar transformation (suppression of left recursion)
 
@@ -71,9 +82,12 @@ factor_with_sign -> PLUS factor
                     | MINUS factor
                     | factor
                 
-factor -> NUMBER
+factor -> value
             | FUNCTION factor
             | OP_BRACKET expression CL_BRACKET
+            
+value -> NUMBER
+            | VARIABLE
                 
 
 

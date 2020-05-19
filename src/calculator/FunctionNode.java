@@ -13,7 +13,7 @@ public class FunctionNode implements Node {
         return Node.FUNCTION_NODE;
     }
 
-    public double getValue(){
+    public double getValue() throws ParserException {
         switch(this.function){
             case "sin":
                 return Math.sin(argument.getValue());

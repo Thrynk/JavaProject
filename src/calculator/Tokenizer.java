@@ -35,6 +35,10 @@ public class Tokenizer {
         String s = input;
         tokens.clear();
 
+        if(s.contains("=") && !s.contains("(")){
+            tokens.add(new Token(11, "init"));
+        }
+
         while(!s.equals("")){
 
             for(TokenDefinition definition : tokensDefinitions){
