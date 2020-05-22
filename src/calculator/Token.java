@@ -13,11 +13,15 @@ public class Token {
     public static final int MINUS = 2;
     public static final int MULT = 3;
     public static final int DIV = 4;
-    public static final int RAISED = 5;
+    public static final int VARIABLE = 5;
     public static final int FUNCTION = 6;
     public static final int OP_BRACKET = 7;
     public static final int CL_BRACKET = 8;
     public static final int NUMBER = 9;
+    public static final int EQUAL = 10;
+    public static final int INIT = 11;
+    public static final int FUNCTION_EXPRESSION = 12;
+    public static final int FUNCTION_DEFINED = 13;
 
     public final int token;
     public final String sequence;
@@ -46,7 +50,7 @@ public class Token {
                 tokenName = "DIV";
                 break;
             case 5:
-                tokenName = "RAISED";
+                tokenName = "VARIABLE";
                 break;
             case 6:
                 tokenName = "FUNCTION";
@@ -59,6 +63,18 @@ public class Token {
                 break;
             case 9:
                 tokenName = "NUMBER";
+                break;
+            case 10:
+                tokenName = "EQUAL";
+                break;
+            case 11:
+                tokenName = "INIT";
+                break;
+            case 12:
+                tokenName = "FUNCTION_EXPRESSION";
+                break;
+            case 13:
+                tokenName = "FUNCTION_DEFINED";
                 break;
             default:
                 tokenName = "UNKNOWN";

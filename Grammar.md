@@ -20,10 +20,18 @@
 
 - NUMBER : numerical number
 
+- EQUAL : =
+
+- VARIABLE = variable (only number for the moment)
+
 ## Standard Grammar
 
 instruction -> expression
+                | initialization
                 | Epsilon
+                
+initialization -> INIT VARIABLE EQUAL NUMBER
+                    | FUNCTION_EXPRESSION VARIABLE OP_BRACKET VARIABLE CL_BRACKET EQUAL expression
                 
 expression -> term_with_sign 
                 | term_with_sign PLUS term 
@@ -41,15 +49,24 @@ factor_with_sign -> PLUS factor
                     | MINUS factor
                     | factor
             
-factor -> NUMBER
+factor -> value
+            | FUNCTION factor
             | OP_BRACKET expression CL_BRACKET
+            
+value -> NUMBER
+            | VARIABLE
+            | FUNCTION_DEFINED
 
 ## LL Grammar transformation (suppression of left recursion)
 
 use this technique : https://www.lewuathe.com/how-to-construct-grammar-of-arithmetic-operations.html
 
 instruction -> expression
+                | initialization
                 | Epsilon
+                
+initialization -> INIT VARIABLE EQUAL NUMBER
+                    | FUNCTION_EXPRESSION VARIABLE OP_BRACKET VARIABLE CL_BRACKET EQUAL expression
                 
 expression -> term_with_sign sum
 
@@ -71,9 +88,13 @@ factor_with_sign -> PLUS factor
                     | MINUS factor
                     | factor
                 
-factor -> NUMBER
+factor -> value
             | FUNCTION factor
             | OP_BRACKET expression CL_BRACKET
+            
+value -> NUMBER
+            | VARIABLE
+            | FUNCTION_DEFINED
                 
 
 
