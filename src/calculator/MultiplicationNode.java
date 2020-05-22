@@ -14,7 +14,7 @@ public class MultiplicationNode extends SequenceNode {
         return Node.MULTIPLICATION_NODE;
     }
 
-    public double getValue() {
+    public double getValue() throws ParserException {
         double prod = 1.0;
         for (Term t : terms) {
             if (t.positive)

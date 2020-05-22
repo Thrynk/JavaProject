@@ -14,7 +14,7 @@ public class AdditionNode extends SequenceNode {
         return Node.ADDITION_NODE;
     }
 
-    public double getValue() {
+    public double getValue() throws ParserException {
         double sum = 0.0;
         for (Term t : terms) {
             if (t.positive)

@@ -35,6 +35,15 @@ public class Tokenizer {
         String s = input;
         tokens.clear();
 
+        // variable initialization
+        if(s.contains("=") && !s.contains("(")){
+            tokens.add(new Token(11, "init"));
+        }
+        // function expression
+        else if(s.trim().contains(")=")){
+            tokens.add(new Token(12, "function_expression"));
+        }
+
         while(!s.equals("")){
 
             for(TokenDefinition definition : tokensDefinitions){
