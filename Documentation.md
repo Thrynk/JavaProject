@@ -1,4 +1,4 @@
-#Documentation
+##Documentation
 
 Notre projet est construit de la manière suivante:
 - Nous avons une interface ayant un tableau contenant les calculs et les résultats des diférentes opérations.
