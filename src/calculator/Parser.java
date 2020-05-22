@@ -19,7 +19,7 @@ public class Parser {
         Node instruction = instruction();
 
         if(lookFirst.token != Token.EPSILON){
-            throw new ParserException("Unexpected symbol " + lookFirst.token + " : " + lookFirst.sequence + " found");
+            throw new ParserException("Unexpected symbol " + lookFirst.getTokenName() + " : " + lookFirst.sequence + " found");
         }
 
         return instruction;
@@ -30,6 +30,11 @@ public class Parser {
         if(lookFirst.token == Token.INIT){
            initialization();
            return null;
+        }
+        // initialization -> FUNCTION_EXPRESSION VARIABLE OP_BRACKET VARIABLE CL_BRACKET EQUAL expression
+        else if(lookFirst.token == Token.FUNCTION_EXPRESSION){
+            function_expression();
+            return null;
         }
         // instruction -> expression
         else if(lookFirst.token != Token.EPSILON){
@@ -49,6 +54,20 @@ public class Parser {
         VariableNode.addVariable(variableName, value);
     }
 
+    private void function_expression(){
+        goToNextToken();
+        String[] parts = lookFirst.sequence.split("\\(");
+        String functionName = parts[0];
+        String[] parts2 = parts[1].split("\\)");
+        String variableName = parts2[0];
+        goToNextToken();
+        goToNextToken();
+        List<Token> expression = List.copyOf(tokens);
+        FunctionExpressionNode.addFunction(functionName, variableName, expression);
+        lookFirst = new Token(0, "");
+        System.out.println("finished 1");
+    }
+
     private Node expression() throws ParserException {
         // expression -> term_with_sign sum
         Node t = termWithSign();
@@ -61,7 +80,6 @@ public class Parser {
             boolean positive = lookFirst.sequence.equals("+");
             goToNextToken();
             Node t = term();
-            System.out.println(t.getType() + " " + t.getValue());
             if(positive){
                 return t;
             }
@@ -132,14 +150,25 @@ public class Parser {
         if(lookFirst.token == Token.NUMBER){
             expression = new ConstantNode(lookFirst.sequence);
             goToNextToken();
-            System.out.println(expression.getType() + " " + expression.getValue());
             return expression;
         }
         // value -> VARIABLE
         else if(lookFirst.token == Token.VARIABLE){
             String variableName = lookFirst.sequence;
             expression = new VariableNode(variableName);
-            System.out.println(expression.getType() + " " + expression.getValue());
+            goToNextToken();
+        }
+        // value -> FUNCTION_DEFINED
+        else if(lookFirst.token == Token.FUNCTION_DEFINED){
+            int indexOfFirstParenthese = lookFirst.sequence.indexOf("(");
+            String[] parts = lookFirst.sequence.split("\\(", indexOfFirstParenthese + 1);
+            String functionName = parts[0];
+
+            String[] parts2 = (new StringBuilder(parts[1])).reverse().toString().split("\\)",2);
+            String functionExpression = (new StringBuilder(parts2[1])).reverse().toString();
+
+            /*System.out.println(functionName + " " + functionExpression);*/
+            expression = new FunctionExpressionNode(functionName, functionExpression);
             goToNextToken();
         }
         return expression;
@@ -157,9 +186,7 @@ public class Parser {
             boolean positive = lookFirst.sequence.equals("*");
             goToNextToken();
             Node f = factorWithSign();
-            System.out.println(f.getType() + " " + f.getValue());
             product.add(f, positive);
-            System.out.println(product.getType() + " " + product.getValue());
             return factorOp(product);
         }
         // factor_op -> Epsilon

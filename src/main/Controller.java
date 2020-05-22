@@ -18,8 +18,8 @@ public class Controller {
         this.tokenizer.add("[0-9]+", 9); // integer number
         this.tokenizer.add("\\(", 7); // opening bracket
         this.tokenizer.add("\\)", 8); // closing bracket
+        this.tokenizer.add("([a-zA-Z][a-zA-Z0-9_]*)\\([a-zA-Z0-9_\\(\\)\\+-/\\*]*\\)", 13); // function expression evaluated
         this.tokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 5); // variable
-
 
         /*for (Token token: tokenizer.getTokens()){
             System.out.println("" + token.token + " " + token.sequence);
@@ -27,26 +27,28 @@ public class Controller {
 
         this.parser = new Parser();
         try {
-            this.tokenizer.tokenize("x=3");
+            /*this.tokenizer.tokenize("x=3");
             for (Token token: tokenizer.getTokens()){
                 System.out.println("" + token.token + " " + token.sequence);
+            }
+            this.parser.parse(this.tokenizer.getTokens());*/
+            this.tokenizer.tokenize("f(x)=2*x");
+            for (Token token: tokenizer.getTokens()){
+                System.out.println("" + token.getTokenName() + " " + token.sequence);
             }
             this.parser.parse(this.tokenizer.getTokens());
-            this.tokenizer.tokenize("x");
+            this.tokenizer.tokenize("f(2+sin(3))/3");
             for (Token token: tokenizer.getTokens()){
-                System.out.println("" + token.token + " " + token.sequence);
+                System.out.println("" + token.getTokenName() + " " + token.sequence);
             }
             Node expression = this.parser.parse(this.tokenizer.getTokens());
-            System.out.println(expression.getValue());
+            if(expression != null){
+                System.out.println(expression.getValue());
+            }
         }
         catch(ParserException e){
             System.out.println(e);
         }
-
-        /*AdditionNode expression = new AdditionNode();
-        expression.add(new ConstantNode(2), true);
-        expression.add(new ConstantNode(3), false);
-        System.out.println(expression.getValue());*/
     }
 
 }

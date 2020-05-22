@@ -20,6 +20,8 @@ public class Token {
     public static final int NUMBER = 9;
     public static final int EQUAL = 10;
     public static final int INIT = 11;
+    public static final int FUNCTION_EXPRESSION = 12;
+    public static final int FUNCTION_DEFINED = 13;
 
     public final int token;
     public final String sequence;
@@ -67,6 +69,12 @@ public class Token {
                 break;
             case 11:
                 tokenName = "INIT";
+                break;
+            case 12:
+                tokenName = "FUNCTION_EXPRESSION";
+                break;
+            case 13:
+                tokenName = "FUNCTION_DEFINED";
                 break;
             default:
                 tokenName = "UNKNOWN";

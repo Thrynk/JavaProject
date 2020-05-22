@@ -30,7 +30,8 @@ instruction -> expression
                 | initialization
                 | Epsilon
                 
-initialization -> VARIABLE EQUAL NUMBER
+initialization -> INIT VARIABLE EQUAL NUMBER
+                    | FUNCTION_EXPRESSION VARIABLE OP_BRACKET VARIABLE CL_BRACKET EQUAL expression
                 
 expression -> term_with_sign 
                 | term_with_sign PLUS term 
@@ -54,13 +55,18 @@ factor -> value
             
 value -> NUMBER
             | VARIABLE
+            | FUNCTION_DEFINED
 
 ## LL Grammar transformation (suppression of left recursion)
 
 use this technique : https://www.lewuathe.com/how-to-construct-grammar-of-arithmetic-operations.html
 
 instruction -> expression
+                | initialization
                 | Epsilon
+                
+initialization -> INIT VARIABLE EQUAL NUMBER
+                    | FUNCTION_EXPRESSION VARIABLE OP_BRACKET VARIABLE CL_BRACKET EQUAL expression
                 
 expression -> term_with_sign sum
 
@@ -88,6 +94,7 @@ factor -> value
             
 value -> NUMBER
             | VARIABLE
+            | FUNCTION_DEFINED
                 
 
 
