@@ -1,5 +1,7 @@
 package calculator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -34,7 +36,7 @@ public class FunctionExpressionNode implements Node {
             tempTokenizer.add("\\*", 3); // *
             tempTokenizer.add("/", 4); // / division
             tempTokenizer.add("\\=", 10); // =
-            tempTokenizer.add("[0-9]+", 9); // integer number
+            tempTokenizer.add("[0-9]+[.,]?[0-9]*", 9); // number
             tempTokenizer.add("\\(", 7); // opening bracket
             tempTokenizer.add("\\)", 8); // closing bracket
             tempTokenizer.add("[a-zA-Z][a-zA-Z0-9_]*", 5); // variable
@@ -87,5 +89,22 @@ public class FunctionExpressionNode implements Node {
     public static void addFunction(String name, String variableName, List<Token> expression){
         Pair functionExpression = new Pair<String, List<Token>>(variableName, expression);
         functions.put(name, functionExpression);
+    }
+
+    public static ObservableList<String> getFunctions(){
+        ObservableList<String> funcs = FXCollections.observableArrayList();
+        String functionName = "";
+        String variableName = "";
+        String expression = "";
+        for(Map.Entry<String, Pair<String, List<Token>> > entry : functions.entrySet()){
+            expression = "";
+            functionName = entry.getKey();
+            variableName = entry.getValue().getKey();
+            for(Token tok : entry.getValue().getValue()){
+                expression += tok.sequence;
+            }
+            funcs.add(functionName + "(" + variableName + ")=" + expression);
+        }
+        return funcs;
     }
 }
